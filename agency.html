@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropIQ — AI Real Estate Analytics Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafaf8;--bg2:#f4f3ef;--bg3:#eeecea;
+  --border:#e8e6e0;--border2:#d4d2cc;
+  --text:#1a1a18;--muted:#888680;--light:#c4c2bc;
+  --accent:#1a1a18;--green:#2d5a27;--green-bg:#f0f7ee;
+  --serif:'Playfair Display',serif;
+  --sans:'Geist',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;font-weight:300}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fade{opacity:0;animation:fadeUp .6s ease both}
+.fade-1{animation-delay:.1s}.fade-2{animation-delay:.2s}.fade-3{animation-delay:.3s}.fade-4{animation-delay:.4s}.fade-5{animation-delay:.5s}.fade-6{animation-delay:.6s}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--serif);font-size:1.3rem;color:var(--text);text-decoration:none;letter-spacing:-.01em}
+.logo em{font-style:italic;color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:400;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--text);color:#fff;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;transition:opacity .2s;font-family:var(--sans)}
+.nav-cta:hover{opacity:.85}
+
+/* ── HERO ── */
+.hero{max-width:1100px;margin:0 auto;padding:7rem 2rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-left{}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--green);background:var(--green-bg);border:1px solid rgba(45,90,39,.15);padding:4px 12px;border-radius:99px;margin-bottom:1.75rem;letter-spacing:.04em}
+.hero-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,4vw,4rem);font-weight:400;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.25rem;color:var(--text)}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.75;max-width:420px;margin-bottom:2rem;font-weight:300}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--text);color:#fff;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;transition:opacity .2s;font-family:var(--sans)}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{color:var(--text);font-size:14px;text-decoration:none;font-weight:400;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border2);padding-bottom:1px;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--text)}
+
+.hero-right{position:relative}
+.hero-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:1.5rem;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.hero-card-title{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1.25rem}
+.mini-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.mini-kpi{background:var(--bg2);border-radius:8px;padding:.75rem}
+.mini-kpi-val{font-family:var(--serif);font-size:1.5rem;color:var(--text)}
+.mini-kpi-lbl{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+.mini-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px}
+.mini-bar-label{color:var(--muted);width:60px;font-family:var(--mono);flex-shrink:0}
+.mini-bar-track{flex:1;height:4px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:99px;background:var(--text)}
+.mini-bar-val{color:var(--text);font-family:var(--mono);width:32px;text-align:right;flex-shrink:0}
+.hero-card-footer{font-size:10px;color:var(--light);font-family:var(--mono);margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)}
+
+/* ── LOGOS ── */
+.logos{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.5rem 2rem}
+.logos-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.logos-label{font-size:11px;color:var(--light);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.logos-items{display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.logos-items span{font-size:13px;color:var(--muted);font-weight:400;letter-spacing:-.01em}
+
+/* ── SECTION ── */
+.section{max-width:1100px;margin:0 auto;padding:5rem 2rem}
+.section-tag{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:1rem}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,3vw,2.8rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:1rem}
+.section-title em{font-style:italic;color:var(--green)}
+.section-desc{font-size:1rem;color:var(--muted);line-height:1.75;max-width:500px;font-weight:300}
+
+/* ── HOW IT WORKS ── */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:3rem}
+.how-item{background:var(--bg);padding:2rem;position:relative}
+.how-num{font-family:var(--mono);font-size:11px;color:var(--light);margin-bottom:1.25rem}
+.how-title{font-size:15px;font-weight:500;margin-bottom:.5rem;letter-spacing:-.01em}
+.how-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── SERVICES ── */
+.services-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:3rem;max-width:580px}
+.service-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:box-shadow .2s,border-color .2s}
+.service-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.07);border-color:var(--border2)}
+.service-icon{width:36px;height:36px;background:var(--bg2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:1rem}
+.service-title{font-size:15px;font-weight:500;margin-bottom:.5rem;letter-spacing:-.01em}
+.service-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+.service-price{margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--muted)}
+.service-price strong{color:var(--text);font-size:15px}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem}
+.pricing-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:2rem;transition:box-shadow .2s}
+.pricing-card.featured{border-color:var(--text);box-shadow:0 4px 24px rgba(0,0,0,.1)}
+.pricing-badge{display:inline-block;background:var(--text);color:#fff;font-size:10px;font-family:var(--mono);padding:3px 10px;border-radius:99px;margin-bottom:1rem;letter-spacing:.04em}
+.pricing-name{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:.5rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+.pricing-price{font-family:var(--serif);font-size:2.5rem;color:var(--text);line-height:1;margin-bottom:.25rem}
+.pricing-period{font-size:12px;color:var(--muted);margin-bottom:1.5rem}
+.pricing-features{list-style:none;margin-bottom:1.5rem}
+.pricing-features li{font-size:13px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-weight:300}
+.pricing-features li:last-child{border-bottom:none}
+.pricing-features li::before{content:'✓';color:var(--green);font-size:11px;font-weight:500;flex-shrink:0}
+.pricing-btn{display:block;text-align:center;padding:11px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;transition:opacity .2s;font-family:var(--sans)}
+.pricing-btn-dark{background:var(--text);color:#fff}
+.pricing-btn-dark:hover{opacity:.85}
+.pricing-btn-light{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+.pricing-btn-light:hover{border-color:var(--border2)}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2rem}
+.about-stat{padding:1.25rem;background:var(--bg2);border-radius:10px}
+.about-stat-val{font-family:var(--serif);font-size:2rem;color:var(--text)}
+.about-stat-lbl{font-size:12px;color:var(--muted);margin-top:2px;font-weight:300}
+.about-text p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:300}
+.about-text p:last-child{margin-bottom:0}
+.about-text strong{color:var(--text);font-weight:500}
+
+/* ── CTA ── */
+.cta-section{background:var(--text);margin:0;padding:6rem 2rem}
+.cta-inner{max-width:700px;margin:0 auto;text-align:center}
+.cta-inner h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:400;color:#fff;line-height:1.1;margin-bottom:1rem}
+.cta-inner h2 em{font-style:italic;color:rgba(200,240,96,.9)}
+.cta-inner p{font-size:1rem;color:rgba(255,255,255,.5);margin-bottom:2rem;font-weight:300;line-height:1.7}
+.cta-btn{display:inline-block;background:#c8f060;color:#1a1a18;padding:14px 32px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;transition:opacity .2s;font-family:var(--sans)}
+.cta-btn:hover{opacity:.9}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--serif);font-size:1.1rem;color:var(--text)}
+.footer-logo em{font-style:italic;color:var(--green)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none}
+.footer-copy{font-size:12px;color:var(--light);font-family:var(--mono)}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:2rem;padding:4rem 1.5rem 3rem}
+  .hero-right{display:none}
+  .services-grid,.pricing-grid,.about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Prop<em>IQ</em></a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="index.html" class="nav-cta">Get free analysis →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left fade fade-1">
+      <div class="hero-tag">AI-powered · Real estate analytics</div>
+      <h1>Your listings.<br>Your data.<br><em>Crystal clear.</em></h1>
+      <p class="hero-desc">PropIQ turns your property spreadsheets into actionable intelligence. Know which lead sources convert, which listings underperform, and where to focus.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn-primary">Start free analysis →</a>
+        <a href="#how" class="btn-secondary">See how it works ↓</a>
+      </div>
+    </div>
+    <div class="hero-right fade fade-2">
+      <div class="hero-card">
+        <div class="hero-card-title">Live analysis preview</div>
+        <div class="mini-kpis">
+          <div class="mini-kpi"><div class="mini-kpi-val">97.8%</div><div class="mini-kpi-lbl">Sale/list ratio</div></div>
+          <div class="mini-kpi"><div class="mini-kpi-val">25.6</div><div class="mini-kpi-lbl">Avg days on market</div></div>
+          <div class="mini-kpi"><div class="mini-kpi-val">80%</div><div class="mini-kpi-lbl">Close rate</div></div>
+          <div class="mini-kpi"><div class="mini-kpi-val">$1.2M</div><div class="mini-kpi-lbl">Volume analyzed</div></div>
+        </div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Zillow</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:80%"></div></div><span class="mini-bar-val">40%</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Referral</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:40%"></div></div><span class="mini-bar-val">20%</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">MLS</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:25%"></div></div><span class="mini-bar-val">20%</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Google</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:20%"></div></div><span class="mini-bar-val">20%</span></div>
+        <div class="hero-card-footer">Powered by PropIQ AI · Updated automatically</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section">
+    <div class="section-tag fade fade-1">Process</div>
+    <div class="section-title fade fade-2">From spreadsheet<br>to <em>strategy</em></div>
+    <div class="how-grid fade fade-3">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <div class="how-title">Share your data</div>
+        <div class="how-desc">Paste your Google Sheet URL into our form. Your existing property data — listings, prices, lead sources, agents — is all we need.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <div class="how-title">AI analyzes everything</div>
+        <div class="how-desc">Our AI engine processes your data instantly — calculating conversion rates, days on market, revenue per source, and agent performance automatically.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <div class="how-title">Receive your dashboard</div>
+        <div class="how-desc">A full visual report arrives in your inbox — KPIs, charts, 3 AI insights, and 2 concrete recommendations tailored to your market.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <div class="how-title">Close more deals</div>
+        <div class="how-desc">Know exactly which lead sources convert best, which listings need price adjustments, and where to focus next month's energy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section">
+    <div class="section-tag fade fade-1">Services</div>
+    <div class="section-title fade fade-2">What we <em>deliver</em></div>
+    <div class="services-grid fade fade-3">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-title">Monthly AI analysis — $299/mo</div>
+        <div class="service-desc">Every week, your property data is analyzed and you receive a full visual dashboard with KPIs, charts, lead source breakdown, agent performance, and AI-generated insights. Includes 4 weekly reports per month, email delivery, and priority support. First analysis completely free.</div>
+        <div class="service-price"><strong>$0</strong> first analysis · then <strong>$299</strong>/month</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section">
+    <div class="section-tag fade fade-1">Pricing</div>
+    <div class="section-title fade fade-2">Simple, <em>transparent</em> pricing</div>
+    <div class="section-desc fade fade-2">Start free. Scale when you're ready. No hidden fees, no long-term contracts.</div>
+    <div class="pricing-grid fade fade-3">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-period">First analysis free</div>
+        <ul class="pricing-features">
+          <li>1 full AI analysis report</li>
+          <li>KPIs + charts dashboard</li>
+          <li>3 AI insights</li>
+          <li>2 recommendations</li>
+          <li>Email delivery</li>
+        </ul>
+        <a href="index.html" class="pricing-btn pricing-btn-light">Start free →</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">MOST POPULAR</div>
+        <div class="pricing-name">Growth</div>
+        <div class="pricing-price">$299</div>
+        <div class="pricing-period">per month · $200 setup fee</div>
+        <ul class="pricing-features">
+          <li>4 weekly analyses per month</li>
+          <li>Full dashboard every week</li>
+          <li>Lead source tracking</li>
+          <li>Agent performance reports</li>
+          <li>Priority email support</li>
+          <li>Custom data columns</li>
+        </ul>
+        <a href="index.html" class="pricing-btn pricing-btn-dark">Get started →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:var(--bg2);border-top:1px solid var(--border)">
+  <div class="section">
+    <div class="section-tag fade fade-1">About</div>
+    <div class="about-grid">
+      <div class="about-text fade fade-2">
+        <div class="section-title" style="margin-bottom:1.5rem">Built for agents<br>who run on <em>data</em></div>
+        <p>PropIQ was built with one belief: <strong>real estate agents shouldn't need a data team to understand their own business.</strong> Your listings generate enormous amounts of data — and most of it goes unused.</p>
+        <p>We connect AI directly to your Google Sheets and deliver clear, actionable intelligence every week. No dashboards to learn, no software to install. Just answers in your inbox.</p>
+        <p>Our proprietary AI infrastructure is built on the same technology used by enterprise analytics teams — made accessible for independent agents and small brokerages at a fraction of the cost.</p>
+      </div>
+      <div class="fade fade-3">
+        <div class="about-stat-grid">
+          <div class="about-stat"><div class="about-stat-val">100%</div><div class="about-stat-lbl">AI automated</div></div>
+          <div class="about-stat"><div class="about-stat-val">4×</div><div class="about-stat-lbl">Reports per month</div></div>
+          <div class="about-stat"><div class="about-stat-val">$0</div><div class="about-stat-lbl">First report free</div></div>
+          <div class="about-stat"><div class="about-stat-val">3 days</div><div class="about-stat-lbl">Custom setup time</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade fade-1">
+  <div class="cta-inner">
+    <h2>Ready to see what your<br>data is <em>telling you?</em></h2>
+    <p>Paste your Google Sheet. Get a full AI analysis report in your inbox. First one is completely free.</p>
+    <a href="index.html" class="cta-btn">Run your free analysis →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Prop<em>IQ</em></div>
+    <div class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="index.html">Free analysis</a>
+    </div>
+    <div class="footer-copy">© 2025 PropIQ · AI real estate analytics</div>
+  </div>
+</footer>
+
+</body>
+</html>
